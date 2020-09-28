@@ -5,7 +5,7 @@ Import af data til MongoDB
 
 2. kopier json-filerne (fra mappen her) ind i mappen på C-drevet
 
-3. Find stien til bin-mappen i MongoDB - den ser nok ca. sådan her ud: C:\Program Files\MongoDB\Server\4.0\bin
+3. Find stien til bin-mappen i MongoDB - den ser nok ca. sådan her ud: C:\Program Files\MongoDB\Server\4.0\bin --- C:\Program Files\MongoDB\Server\4.2\bin
     - du har muligvis en anden version så 4.0 hedder 4.2 el.lign. hos dig.
     - OBS! Hvis du har version 4.9 skal du lige sige til!!!
 
