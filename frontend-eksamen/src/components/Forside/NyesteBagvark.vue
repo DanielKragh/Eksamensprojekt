@@ -11,7 +11,7 @@
           <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Achitecto magnam ratione vel sapiente sunt impedit. Laborum corporis non veniam alias distinctio?</p>
         </v-col>
       </v-row>
-      <v-row class="">
+      <v-row class="mb-10">
         <v-col cols="12" sm="8" offset-sm="2">
           <v-row>
             <v-col cols="12" sm="4" md="3" v-for="(item,i) in items" :key="i">

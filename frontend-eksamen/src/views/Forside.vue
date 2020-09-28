@@ -1,9 +1,9 @@
 <template>
   <div class="forside">
     <Slideshow />
-    <NyestNyhederSektion v-if="alleNyheder" />
-    <TilmeldNyhedsbrev/>
-    <NyesteBagvark v-if="alleProdukter"/>
+    <NyestNyhederSektion v-if="alleNyheder"  class="my-10"/>
+    <TilmeldNyhedsbrev class="my-10"/>
+    <NyesteBagvark v-if="alleProdukter" class="mb-10"/>
   </div>
 </template>
 
