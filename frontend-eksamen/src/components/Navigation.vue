@@ -17,7 +17,7 @@
       <v-btn v-if="!mobile && !loggedin" x-small text @click="$router.push('/login')">Login</v-btn>
       <v-btn v-if="!mobile && loggedin" x-small text @click="logud">Logud</v-btn>
       <v-spacer></v-spacer>
-      <div class="search">
+      <div class="search" v-if="!mobile">
         <input
           class="search__input"
           v-model="searchWord"
@@ -32,24 +32,41 @@
       </div>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" absolute bottom temporary>
+    <v-navigation-drawer v-model="drawer" absolute left temporary>
       <v-list nav dense>
-        <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
-          <v-list-item>
+        <v-list-item-group v-model="group" active-class="black--text ">
+          <v-list-item class="text-center" @click="$router.push('/')">
             <v-list-item-title>Forside</v-list-item-title>
           </v-list-item>
-
-          <v-list-item>
+          <v-list-item class="text-center" @click="$router.push('/produkter')">
             <v-list-item-title>Produkter</v-list-item-title>
           </v-list-item>
-
-          <v-list-item>
+          <v-list-item class="text-center" @click="$router.push('/kontakt')">
             <v-list-item-title>Kontakt</v-list-item-title>
           </v-list-item>
-
-          <v-list-item>
+          <v-list-item v-if="loggedin" class="text-center" @click="$router.push('/admin')">
+            <v-list-item-title>Admin</v-list-item-title>
+          </v-list-item>
+          <v-list-item v-if="!loggedin" class="text-center" @click="$router.push('/login')">
             <v-list-item-title>Login</v-list-item-title>
           </v-list-item>
+          <v-list-item v-if="loggedin" class="text-center" @click="logud">
+            <v-list-item-title>Logud</v-list-item-title>
+          </v-list-item>
+
+          <div class="search-mobile ma-2 mr-10 text-center">
+            <input
+              class="search-mobile__input"
+              v-model="searchWord"
+              @keydown.enter="$router.push({name: 'SearchResult', params: {searchword: searchWord}})"
+            />
+            <v-btn
+              height="30px"
+              @click="$router.push({name: 'SearchResult', params: {searchword: searchWord}})"
+            >
+              <v-icon>mdi-magnify</v-icon>
+            </v-btn>
+          </div>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
@@ -68,15 +85,28 @@ export default {
   methods: {
     logud() {
       this.model.getLogud().then(() => {
-        this.model
-          .getLoggedin()
-          .then(res => {
-            this.log("Logged in: " + res.data.message);
-            this.setLoggedin(res.data.message);
-          })
-          .catch(() => this.log("ikke logged in"));
+        this.$router.go();
       });
     }
+  },
+  mounted() {
+    let inner = window.innerWidth;
+    if (inner < 1100) {
+      this.mobile = true;
+    } else {
+      this.mobile = false;
+    }
+    this.$nextTick(() => {
+      window.addEventListener("resize", () => {
+        inner = window.innerWidth;
+        if (inner < 1100) {
+          this.mobile = true;
+        } else {
+          this.mobile = false;
+          this.drawer = false;
+        }
+      });
+    });
   },
   computed: {
     ...mapState({
@@ -97,14 +127,20 @@ export default {
   top: 30px;
   right: 20px;
   display: flex;
-  @media only screen and (max-width: 1000px) {
-    top: 57px;
-    right: 50%;
-    transform: translate(50%, 50%);
-  }
+
   &__input {
     background-color: rgba(255, 255, 255, 0);
-    border: #fff solid 1px;
+    border: rgb(182, 182, 182) solid 1px;
+    border-radius: 5px;
+    height: 30px;
+  }
+}
+.search-mobile {
+  position: relative;
+  width: 100%;
+  &__input {
+    background-color: rgba(231, 231, 231, 0.507);
+    border: rgb(182, 182, 182) solid 1px;
     border-radius: 5px;
     height: 30px;
   }

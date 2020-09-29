@@ -12,7 +12,7 @@
       <v-row>
         <v-col cols="12" sm="8" offset-sm="2" class="text-center">
           <v-row>
-            <v-col cols="12" sm="3">
+            <v-col cols="12" md="3">
               <v-list dense>
                 <v-list-item-group v-model="selectedKategory">
                   <v-list-item v-for="(item, i) in kategories" :key="i">
@@ -23,7 +23,7 @@
                 </v-list-item-group>
               </v-list>
             </v-col>
-            <v-col cols="12" sm="9">
+            <v-col cols="12" md="9">
               <BagCard :items="items" />
             </v-col>
           </v-row>
