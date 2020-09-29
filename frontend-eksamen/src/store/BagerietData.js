@@ -3,7 +3,7 @@ export default {
   state: {
     alleNyheder: undefined,
     alleProdukter: undefined,
-
+    sendtBesked: undefined,
   },
   mutations: {
     setAlleNyheder(state, value) {
@@ -11,6 +11,9 @@ export default {
     }, 
     setAlleProdukter(state, value) {
       state.alleProdukter = value;
+    },
+    setSendtBesked(state, value) {
+      state.sendtBesked = value;
     },
   }
 }

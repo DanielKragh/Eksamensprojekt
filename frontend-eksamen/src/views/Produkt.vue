@@ -42,7 +42,7 @@
     </v-row>
     <v-row>
       <v-col cols="12" sm="8" offset-sm="2">
-        <Kommentar />
+        <Kommentar v-if="produkt" :kommentar="produkt.kommentar" />
       </v-col>
     </v-row>
   </v-container>

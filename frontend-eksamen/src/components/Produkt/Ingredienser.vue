@@ -19,7 +19,7 @@ export default {
 
 <style lang="scss" scoped>
 .ingrediens-box{
-  border: 1px solid rgba(128, 128, 128, 0.377);
+  border: rgba(128, 128, 128, 0.363) solid 1px;
   background-color: #fff;
   padding: 5px 0;
   &__titel{

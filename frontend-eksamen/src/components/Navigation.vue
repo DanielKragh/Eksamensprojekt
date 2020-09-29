@@ -16,8 +16,8 @@
       <v-btn v-if="!mobile" x-small text @click="$router.push('/login')">Login</v-btn>
       <v-spacer></v-spacer>
       <div class="search">
-        <input class="search__input" />
-        <v-btn height="30px">
+        <input class="search__input" v-model="searchWord"  @keydown.enter="$router.push({name: 'SearchResult', params: {searchword: searchWord}})"/>
+        <v-btn height="30px" @click="$router.push({name: 'SearchResult', params: {searchword: searchWord}})">
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
       </div>
@@ -52,7 +52,8 @@ export default {
   data: () => ({
     drawer: false,
     group: null,
-    mobile: false
+    mobile: false,
+    searchWord:undefined,
   }),
 
   watch: {

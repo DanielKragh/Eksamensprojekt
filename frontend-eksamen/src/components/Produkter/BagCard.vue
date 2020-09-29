@@ -4,9 +4,9 @@
       <div class="bag mt-5">
         <div
           class="bag__img-con"
-          :style="'background-image:url(assets/images/produkter/'+item.image+')'"
+          :style="'background-image:url(/assets/images/produkter/'+item.image+')'"
         ></div>
-        <div class="mb-2">
+        <div class="mb-2" v-if="item.kommentar">
           <span class="grey--text bag__comments">{{item.kommentar.length}}</span>
           <v-icon x-small>mdi-message</v-icon>
         </div>

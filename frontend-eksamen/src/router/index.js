@@ -4,6 +4,8 @@ import Forside from '../views/Forside.vue'
 import Kontakt from '../views/Kontakt.vue'
 import Produkter from '../views/Produkter.vue'
 import Produkt from '../views/Produkt.vue'
+import SendtBesked from '../views/SendtBesked.vue'
+import SearchResult from '../views/SearchResult.vue'
 import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
@@ -28,6 +30,16 @@ const routes = [
     path: '/produkt/:produktId',
     name: 'Produkt',
     component: Produkt
+  },
+  {
+    path: '/sendtbesked',
+    name: 'SendtBesked',
+    component: SendtBesked
+  },
+  {
+    path: '/searchresult/:searchword',
+    name: 'SearchResult',
+    component: SearchResult
   },
   {
     path: '/login',
