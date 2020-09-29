@@ -4,6 +4,7 @@
       :color="$route.name === 'Forside' ?'#688aa300':'#688aa3'"
       dark
       flat
+      height="90px"
       :absolute="$route.name === 'Forside'"
     >
       <v-app-bar-nav-icon v-if="mobile" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -65,7 +66,7 @@ export default {
 <style lang="scss" scoped>
 .search {
   position: absolute;
-  top: 17px;
+  top: 30px;
   right: 20px;
   display: flex;
   @media only screen and (max-width: 1000px) {

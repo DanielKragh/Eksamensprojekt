@@ -10,6 +10,13 @@ class Model {
     getNumberOfProdukter(antal) {
         return this.caller.get("/produkter/antal/"+antal)
     }
+    getProduktFraId(id){
+        return this.caller.get("/produkter/"+id)
+    }
+    // Like produkt
+    patchLikeProdukt(id){
+        return this.caller.patch("/produkter/likes/"+id)
+    }
     // Nyheder
     getAllNyheder() {
         return this.caller.get("/nyheder")
@@ -19,7 +26,10 @@ class Model {
     postNyhedsbrevTilmelding(data){
         return this.caller.post("/nyhedsbrevtilmelding", data)
     }
-
+    // Kategorier
+    getAlleKategorier(){
+        return this.caller.get("/kategorier")
+    }
 
 
 

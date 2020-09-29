@@ -1,8 +1,11 @@
 <template>
-  <v-app>
+  <v-app >
     <Navigation />
-    <v-main>
-      <router-view></router-view>
+    <v-main style="background-color: rgb(245 245 245);">
+      <v-overlay :value="loading">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+      <router-view v-if="!loading"></router-view>
     </v-main>
     <Footer />
   </v-app>
@@ -22,25 +25,33 @@ export default {
   },
 
   data: () => ({
-    //
+    loading: true
   }),
   methods: {
-    ...mapMutations("BagerietData", ["setAlleNyheder","setAlleProdukter"])
+    ...mapMutations("BagerietData", ["setAlleNyheder", "setAlleProdukter"])
   },
   mounted() {
-    this.model.getAllNyheder().then(res => {
-      this.log(res.data);
-      this.setAlleNyheder(res.data);
-    });
-    this.model.getAllProdukter().then(res => {
-      this.log(res.data);
-      this.setAlleProdukter(res.data);
-    });
+    this.model
+      .getAllNyheder()
+      .then(res => {
+        this.log(res.data);
+        this.setAlleNyheder(res.data);
+      })
+      .then(() => {
+        this.model
+          .getAllProdukter()
+          .then(res => {
+            this.log(res.data);
+            this.setAlleProdukter(res.data);
+          })
+          .then(() => {
+            this.loading = false;
+          }).catch(err => this.log(err));
+      }).catch(err => this.log(err));
   }
 };
 </script>
 <style lang="scss">
-
 * {
   font-family: "Open Sans", sans-serif;
 }
@@ -58,5 +69,4 @@ p {
   font-size: 12px;
   font-weight: 400;
 }
-
 </style>
