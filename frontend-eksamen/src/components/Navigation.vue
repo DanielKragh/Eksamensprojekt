@@ -13,11 +13,20 @@
       <v-btn v-if="!mobile" x-small text @click="$router.push('/produkter')">Produkter</v-btn>
       <h1 class="mx-10">bageriet</h1>
       <v-btn v-if="!mobile" x-small text @click="$router.push('/kontakt')">Kontakt</v-btn>
-      <v-btn v-if="!mobile" x-small text @click="$router.push('/login')">Login</v-btn>
+      <v-btn v-if="!mobile && loggedin" x-small text @click="$router.push('/admin')">Admin</v-btn>
+      <v-btn v-if="!mobile && !loggedin" x-small text @click="$router.push('/login')">Login</v-btn>
+      <v-btn v-if="!mobile && loggedin" x-small text @click="logud">Logud</v-btn>
       <v-spacer></v-spacer>
       <div class="search">
-        <input class="search__input" v-model="searchWord"  @keydown.enter="$router.push({name: 'SearchResult', params: {searchword: searchWord}})"/>
-        <v-btn height="30px" @click="$router.push({name: 'SearchResult', params: {searchword: searchWord}})">
+        <input
+          class="search__input"
+          v-model="searchWord"
+          @keydown.enter="$router.push({name: 'SearchResult', params: {searchword: searchWord}})"
+        />
+        <v-btn
+          height="30px"
+          @click="$router.push({name: 'SearchResult', params: {searchword: searchWord}})"
+        >
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
       </div>
@@ -48,14 +57,32 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data: () => ({
     drawer: false,
     group: null,
     mobile: false,
-    searchWord:undefined,
+    searchWord: undefined
   }),
-
+  methods: {
+    logud() {
+      this.model.getLogud().then(() => {
+        this.model
+          .getLoggedin()
+          .then(res => {
+            this.log("Logged in: " + res.data.message);
+            this.setLoggedin(res.data.message);
+          })
+          .catch(() => this.log("ikke logged in"));
+      });
+    }
+  },
+  computed: {
+    ...mapState({
+      loggedin: state => state.BagerietData.loggedin
+    })
+  },
   watch: {
     group() {
       this.drawer = false;

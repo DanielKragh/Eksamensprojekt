@@ -1,5 +1,5 @@
 <template>
-  <v-app >
+  <v-app>
     <Navigation />
     <v-main style="background-color: rgb(245 245 245);">
       <v-overlay :value="loading">
@@ -28,7 +28,11 @@ export default {
     loading: true
   }),
   methods: {
-    ...mapMutations("BagerietData", ["setAlleNyheder", "setAlleProdukter"])
+    ...mapMutations("BagerietData", [
+      "setAlleNyheder",
+      "setAlleProdukter",
+      "setLoggedin"
+    ])
   },
   mounted() {
     this.model
@@ -46,8 +50,22 @@ export default {
           })
           .then(() => {
             this.loading = false;
-          }).catch(err => this.log(err));
-      }).catch(err => this.log(err));
+          })
+          .catch(err => this.log(err));
+      })
+      .catch(err => this.log(err));
+    this.model.getLoggedin().then(res => {
+      this.log("Logged in: " + res.data.message);
+      this.setLoggedin(res.data.message);
+    }).catch(() => this.log("ikke logged in"));
+  },
+  watch: {
+    $route() {
+      this.model.getLoggedin().then(res => {
+        this.log("Logged in: " + res.data.message);
+        this.setLoggedin(res.data.message);
+      }).catch(() => this.log("ikke logged in"));
+    }
   }
 };
 </script>

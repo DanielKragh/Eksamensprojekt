@@ -79,11 +79,11 @@ router.get('/loggedin', async (req, res) => {
     if (req.session.userID) {
         
         // Hvis der er logget ind
-        return res.status(200).json({ message: 'Login er stadig aktiv' }) //route
+        return res.status(200).json({ message: true }) //route
 
     } else {
         // Hvis der ikke er et login/en session
-        return res.status(401).json({ message: 'Login eksisterer ikke eller er udløbet' })
+        return res.status(401).json({ message: false })
     }
 
 })

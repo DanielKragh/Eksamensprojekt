@@ -4,6 +4,7 @@ export default {
     alleNyheder: undefined,
     alleProdukter: undefined,
     sendtBesked: undefined,
+    loggedin: false,
   },
   mutations: {
     setAlleNyheder(state, value) {
@@ -14,6 +15,9 @@ export default {
     },
     setSendtBesked(state, value) {
       state.sendtBesked = value;
+    },
+    setLoggedin(state, value) {
+      state.loggedin = value;
     },
   }
 }
