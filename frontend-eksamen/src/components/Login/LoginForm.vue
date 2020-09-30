@@ -37,7 +37,10 @@ export default {
   },
   methods: {
     login() {
-      this.model.postLogin(this.formData).then(() => {
+      this.model.postLogin(this.formData).then(res => {
+        localStorage.setItem("bruger_id", res.data.bruger_id);
+        localStorage.setItem("bruger_fornavn", res.data.fornavn);
+        localStorage.setItem("bruger_efternavn", res.data.efternavn);
         this.$router.push("/");
       });
     }

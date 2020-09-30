@@ -6,6 +6,8 @@ import Produkter from '../views/Produkter.vue'
 import Produkt from '../views/Produkt.vue'
 import SendtBesked from '../views/SendtBesked.vue'
 import SearchResult from '../views/SearchResult.vue'
+import Profil from '../views/Profil.vue'
+import Admin from '../views/Admin.vue'
 import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
@@ -40,6 +42,16 @@ const routes = [
     path: '/searchresult/:searchword',
     name: 'SearchResult',
     component: SearchResult
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin
+  },
+  {
+    path: '/profil',
+    name: 'Profil',
+    component: Profil
   },
   {
     path: '/login',

@@ -20,6 +20,12 @@ class Model {
     patchLikeProdukt(id) {
         return this.caller.patch("/produkter/likes/" + id)
     }
+    // kommenter på produkt
+    postProduktKommentar(data) {
+        return this.caller.post("/kommentar/admin", data, {
+            withCredentials: true
+        })
+    }
 
     // Nyheder
     getAllNyheder() {
@@ -39,6 +45,23 @@ class Model {
     // Kontakt
     postKontakt(data) {
         return this.caller.post("/kontakt", data)
+    }
+
+    // bruger
+    getBrugerFraId(id){
+        return this.caller.get("/bruger/admin/"+ id, {
+            withCredentials: true
+        })
+    }
+    putBruger(id,data){
+        return this.caller.put("/bruger/admin/"+ id, data, {
+            withCredentials: true
+        })
+    }
+    deleteBruger(id){
+        return this.caller.delete("/bruger/admin/"+ id, {
+            withCredentials: true
+        })
     }
 
     // Login

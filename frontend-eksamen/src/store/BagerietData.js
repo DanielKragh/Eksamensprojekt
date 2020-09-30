@@ -5,6 +5,7 @@ export default {
     alleProdukter: undefined,
     sendtBesked: undefined,
     loggedin: false,
+    loggedinBruger: undefined,
   },
   mutations: {
     setAlleNyheder(state, value) {
@@ -18,6 +19,9 @@ export default {
     },
     setLoggedin(state, value) {
       state.loggedin = value;
+    },
+    setLoggedinBruger(state, value) {
+      state.loggedinBruger = value;
     },
   }
 }

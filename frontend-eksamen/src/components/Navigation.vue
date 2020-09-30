@@ -8,15 +8,6 @@
       :absolute="$route.name === 'Forside'"
     >
       <v-app-bar-nav-icon v-if="mobile" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-spacer></v-spacer>
-      <v-btn v-if="!mobile" x-small text @click="$router.push('/')">Forside</v-btn>
-      <v-btn v-if="!mobile" x-small text @click="$router.push('/produkter')">Produkter</v-btn>
-      <h1 class="mx-10">bageriet</h1>
-      <v-btn v-if="!mobile" x-small text @click="$router.push('/kontakt')">Kontakt</v-btn>
-      <v-btn v-if="!mobile && loggedin" x-small text @click="$router.push('/admin')">Admin</v-btn>
-      <v-btn v-if="!mobile && !loggedin" x-small text @click="$router.push('/login')">Login</v-btn>
-      <v-btn v-if="!mobile && loggedin" x-small text @click="logud">Logud</v-btn>
-      <v-spacer></v-spacer>
       <div class="search" v-if="!mobile">
         <input
           class="search__input"
@@ -30,6 +21,44 @@
           <v-icon>mdi-magnify</v-icon>
         </v-btn>
       </div>
+      <v-spacer></v-spacer>
+      <v-btn v-if="!mobile" x-small text @click="$router.push('/')">Forside</v-btn>
+      <v-btn v-if="!mobile" x-small text @click="$router.push('/produkter')">Produkter</v-btn>
+      <h1 class="mx-10">bageriet</h1>
+      <v-btn v-if="!mobile" x-small text @click="$router.push('/kontakt')">Kontakt</v-btn>
+      <!-- <v-btn v-if="!mobile && loggedin" x-small text @click="$router.push('/admin')">Admin</v-btn> -->
+      <!-- <v-btn v-if="!mobile && loggedin" x-small text @click="$router.push('/profil')">Profil</v-btn> -->
+      <v-btn v-if="!mobile && !loggedin" x-small text @click="$router.push('/login')">Login</v-btn>
+      <v-btn v-if="!mobile && loggedin" x-small text @click="logud">Logud</v-btn>
+      <v-spacer></v-spacer>
+      <v-menu offset-y v-if="loggedin">
+        <template v-slot:activator="{ on, attrs }">
+          <div class="d-flex profil-btn" v-if="loggedin">
+            <v-btn
+              v-bind="attrs"
+              v-on="on"
+              fab
+              color="white"
+              height="40px"
+              width="40px"
+              min-width="40px"
+            >
+              <v-icon color="rgb(104, 138, 163)">mdi-account</v-icon>
+            </v-btn>
+            <span class="pt-2 pl-3">{{fornavn}}</span>
+            <span class="pt-2 pl-1">{{efternavn}}</span>
+          </div>
+        </template>
+
+        <v-list>
+          <v-list-item @click="$router.push('/admin')">
+            <v-list-item-title>Admin</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="$router.push('/profil')">
+            <v-list-item-title>Profil</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" absolute left temporary>
@@ -44,9 +73,12 @@
           <v-list-item class="text-center" @click="$router.push('/kontakt')">
             <v-list-item-title>Kontakt</v-list-item-title>
           </v-list-item>
-          <v-list-item v-if="loggedin" class="text-center" @click="$router.push('/admin')">
+          <!-- <v-list-item v-if="loggedin" class="text-center" @click="$router.push('/admin')">
             <v-list-item-title>Admin</v-list-item-title>
-          </v-list-item>
+          </v-list-item>-->
+          <!-- <v-list-item v-if="loggedin" class="text-center" @click="$router.push('/profil')">
+            <v-list-item-title>Profil</v-list-item-title>
+          </v-list-item>-->
           <v-list-item v-if="!loggedin" class="text-center" @click="$router.push('/login')">
             <v-list-item-title>Login</v-list-item-title>
           </v-list-item>
@@ -80,16 +112,23 @@ export default {
     drawer: false,
     group: null,
     mobile: false,
-    searchWord: undefined
+    searchWord: undefined,
+    fornavn: undefined,
+    efternavn: undefined
   }),
   methods: {
     logud() {
       this.model.getLogud().then(() => {
+        localStorage.removeItem("bruger_id");
+        localStorage.removeItem("bruger_fornavn");
+        localStorage.removeItem("bruger_efternavn");
         this.$router.go();
       });
     }
   },
   mounted() {
+    this.fornavn = localStorage.getItem("bruger_fornavn");
+    this.efternavn = localStorage.getItem("bruger_efternavn");
     let inner = window.innerWidth;
     if (inner < 1100) {
       this.mobile = true;
@@ -116,6 +155,12 @@ export default {
   watch: {
     group() {
       this.drawer = false;
+    },
+    loggedin() {
+      if (this.loggedin) {
+        this.fornavn = localStorage.getItem("bruger_fornavn");
+        this.efternavn = localStorage.getItem("bruger_efternavn");
+      }
     }
   }
 };
@@ -125,7 +170,7 @@ export default {
 .search {
   position: absolute;
   top: 30px;
-  right: 20px;
+  left: 20px;
   display: flex;
 
   &__input {
@@ -144,5 +189,10 @@ export default {
     border-radius: 5px;
     height: 30px;
   }
+}
+.profil-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }
 </style>

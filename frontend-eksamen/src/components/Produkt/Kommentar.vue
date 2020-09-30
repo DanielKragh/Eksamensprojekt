@@ -18,6 +18,7 @@
           rows="1"
           placeholder="Fortæl os hvad du syntes..."
           class="my-2 mx-4"
+          v-model="kommentaren"
         ></textarea>
         <v-spacer></v-spacer>
         <v-btn
@@ -28,6 +29,7 @@
           dark
           tile
           depressed
+          @click="send"
         >Indsæt</v-btn>
       </v-col>
     </v-row>
@@ -73,14 +75,17 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   props: {
     kommentar: {
       type: Array
-    }
+    },
+    produkt: Object
   },
   data() {
     return {
+      kommentaren: undefined,
       page: 1,
       perPage: 3,
       months: [
@@ -99,7 +104,30 @@ export default {
       ]
     };
   },
+  methods: {
+    send() {
+      if (this.kommentaren && this.loggedin) {
+        this.model
+          .postProduktKommentar({
+            titel: "titel ikke udfyldt",
+            kommentaren: this.kommentaren,
+            bruger: localStorage.getItem("bruger_id"),
+            produkt: this.produkt._id
+          })
+          .then(() => {
+            this.kommentaren = "";
+            this.$emit("reload");
+          });
+      }
+    }
+  },
+  mounted() {
+    this.log(localStorage.getItem("bruger_id"));
+  },
   computed: {
+    ...mapState({
+      loggedin: state => state.BagerietData.loggedin
+    }),
     visiblePages() {
       return this.kommentar.slice(
         (this.page - 1) * this.perPage,

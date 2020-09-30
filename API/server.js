@@ -43,7 +43,7 @@ app.use(session({
         maxAge: ONE_DAY,
         sameSite: 'none',
         secure: process.env.NODE_ENV === 'production',
-        httpOnly: true
+        httpOnly: false
     }
 }))
 
@@ -60,15 +60,15 @@ app.get('/', async (req, res) => {
 
 ///////// UDKOMMENTER DENNE - hvis login skal slås fra ////////////////////////
 // ----- TJEK OM AUTHORIZED (der er logget ind og sessioncookie er sat) hvis route indeholder ordet admin
-// app.use('*/admin*', async (req, res, next) => {
+app.use('*/admin*', async (req, res, next) => {
 
-//     if (req.session && req.session.userID) {
-//         return next()
-//     } else {
-//         return res.status(401).json({ message: 'Du har ikke adgang - du skal være logget ind' }) //route
-//     }
+    if (req.session && req.session.userID) {
+        return next()
+    } else {
+        return res.status(401).json({ message: 'Du har ikke adgang - du skal være logget ind' }) //route
+    }
 
-// })
+})
 
 
 
