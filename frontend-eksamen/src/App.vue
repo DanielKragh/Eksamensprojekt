@@ -14,7 +14,7 @@
 <script>
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "App",
@@ -54,18 +54,49 @@ export default {
           .catch(err => this.log(err));
       })
       .catch(err => this.log(err));
-    this.model.getLoggedin().then(res => {
-      this.log("Logged in: " + res.data.message);
-      this.setLoggedin(res.data.message);
-    }).catch(() => this.log("ikke logged in"));
+    this.model
+      .getLoggedin()
+      .then(res => {
+        this.log("Logged in: " + res.data.message);
+        this.setLoggedin(res.data.message);
+      })
+      .then(() => {
+        if (!this.loggedin) {
+          if (
+            this.$route.path.includes("profil") ||
+            this.$route.path.includes("admin")
+          ) {
+            this.$router.push({ name: "Forside" });
+          }
+        }
+      })
+      .catch(() => this.log("ikke logged in"));
   },
   watch: {
     $route() {
-      this.model.getLoggedin().then(res => {
-        this.log("Logged in: " + res.data.message);
-        this.setLoggedin(res.data.message);
-      }).catch(() => this.log("ikke logged in"));
+      this.model
+        .getLoggedin()
+        .then(res => {
+          this.log("Logged in: " + res.data.message);
+          this.setLoggedin(res.data.message);
+        })
+        .catch(() => this.log("ikke logged in"));
+    },
+    loggedin() {
+      if (!this.loggedin) {
+        if (
+          this.$route.path.includes("profil") ||
+          this.$route.path.includes("admin")
+        ) {
+          this.$router.push({ name: "Forside" });
+        }
+      }
     }
+  },
+  computed: {
+    ...mapState({
+      loggedin: state => state.BagerietData.loggedin
+    })
   }
 };
 </script>

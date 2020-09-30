@@ -16,6 +16,21 @@ class Model {
     getSearchResult(ord) {
         return this.caller.get("/produkter/soeg/" + ord)
     }
+    deleteProdukt(id) {
+        return this.caller.delete("/produkter/admin/" + id, {
+            withCredentials: true
+        })
+    }
+    postProdukt(data) {
+        return this.caller.post("/produkter/admin", data, {
+            withCredentials: true
+        })
+    }
+    putProdukt(id, data) {
+        return this.caller.put("/produkter/admin/" + id, data, {
+            withCredentials: true
+        })
+    }
     // Like produkt
     patchLikeProdukt(id) {
         return this.caller.patch("/produkter/likes/" + id)
@@ -27,9 +42,36 @@ class Model {
         })
     }
 
+    // Ingredienser
+    postIngredienser(id, data) {
+        return this.caller.post("/produktingrediens/admin/" + id, data, {
+            withCredentials: true
+        })
+    }
+    deleteIngredienser(pid, iid) {
+        return this.caller.delete("/produktingrediens/admin/" + pid + "/" + iid, {
+            withCredentials: true
+        })
+    }
+
     // Nyheder
     getAllNyheder() {
         return this.caller.get("/nyheder")
+    }
+    postNyhed(data) {
+        return this.caller.post("/nyheder/admin", data, {
+            withCredentials: true
+        })
+    }
+    deleteNyhed(id) {
+        return this.caller.delete("/nyheder/admin/" + id, {
+            withCredentials: true
+        })
+    }
+    putNyhed(id,data) {
+        return this.caller.put("/nyheder/admin/" + id, data, {
+            withCredentials: true
+        })
     }
 
     // Tilmeld Nyhedsbrev
@@ -48,18 +90,18 @@ class Model {
     }
 
     // bruger
-    getBrugerFraId(id){
-        return this.caller.get("/bruger/admin/"+ id, {
+    getBrugerFraId(id) {
+        return this.caller.get("/bruger/admin/" + id, {
             withCredentials: true
         })
     }
-    putBruger(id,data){
-        return this.caller.put("/bruger/admin/"+ id, data, {
+    putBruger(id, data) {
+        return this.caller.put("/bruger/admin/" + id, data, {
             withCredentials: true
         })
     }
-    deleteBruger(id){
-        return this.caller.delete("/bruger/admin/"+ id, {
+    deleteBruger(id) {
+        return this.caller.delete("/bruger/admin/" + id, {
             withCredentials: true
         })
     }

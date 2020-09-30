@@ -78,6 +78,7 @@
 </template>
 
 <script>
+// import { mapState } from 'vuex';
 export default {
   data() {
     return {
@@ -109,7 +110,8 @@ export default {
       this.formData = res.data;
       delete this.formData.password;
     });
-  }
+  },
+  
 };
 </script>
 
