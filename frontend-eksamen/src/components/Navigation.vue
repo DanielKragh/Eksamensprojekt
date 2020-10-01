@@ -31,9 +31,9 @@
       <v-btn v-if="!mobile && !loggedin" x-small text @click="$router.push('/login')">Login</v-btn>
       <v-btn v-if="!mobile && loggedin" x-small text @click="logud">Logud</v-btn>
       <v-spacer></v-spacer>
-      <v-menu offset-y v-if="loggedin">
+      <v-menu offset-y v-if="loggedin && !mobile">
         <template v-slot:activator="{ on, attrs }">
-          <div class="d-flex profil-btn" v-if="loggedin">
+          <div class="d-flex profil-btn" v-if="loggedin && !mobile">
             <v-btn
               v-bind="attrs"
               v-on="on"
@@ -51,7 +51,7 @@
         </template>
 
         <v-list>
-          <v-list-item @click="$router.push('/admin')">
+          <v-list-item @click="$router.push('/admin')" v-if="rolle === 'ADMIN'">
             <v-list-item-title>Admin</v-list-item-title>
           </v-list-item>
           <v-list-item @click="$router.push('/profil')">
@@ -73,12 +73,12 @@
           <v-list-item class="text-center" @click="$router.push('/kontakt')">
             <v-list-item-title>Kontakt</v-list-item-title>
           </v-list-item>
-          <!-- <v-list-item v-if="loggedin" class="text-center" @click="$router.push('/admin')">
+          <v-list-item v-if="loggedin && rolle === 'ADMIN'" class="text-center" @click="$router.push('/admin')">
             <v-list-item-title>Admin</v-list-item-title>
-          </v-list-item>-->
-          <!-- <v-list-item v-if="loggedin" class="text-center" @click="$router.push('/profil')">
+          </v-list-item>
+          <v-list-item v-if="loggedin" class="text-center" @click="$router.push('/profil')">
             <v-list-item-title>Profil</v-list-item-title>
-          </v-list-item>-->
+          </v-list-item>
           <v-list-item v-if="!loggedin" class="text-center" @click="$router.push('/login')">
             <v-list-item-title>Login</v-list-item-title>
           </v-list-item>
@@ -114,7 +114,8 @@ export default {
     mobile: false,
     searchWord: undefined,
     fornavn: undefined,
-    efternavn: undefined
+    efternavn: undefined,
+    rolle: undefined
   }),
   methods: {
     logud() {
@@ -122,6 +123,8 @@ export default {
         localStorage.removeItem("bruger_id");
         localStorage.removeItem("bruger_fornavn");
         localStorage.removeItem("bruger_efternavn");
+        localStorage.removeItem("bruger_rolle");
+
         this.$router.go();
       });
     }
@@ -129,6 +132,7 @@ export default {
   mounted() {
     this.fornavn = localStorage.getItem("bruger_fornavn");
     this.efternavn = localStorage.getItem("bruger_efternavn");
+    this.rolle = localStorage.getItem("bruger_rolle");
     let inner = window.innerWidth;
     if (inner < 1100) {
       this.mobile = true;
@@ -160,6 +164,7 @@ export default {
       if (this.loggedin) {
         this.fornavn = localStorage.getItem("bruger_fornavn");
         this.efternavn = localStorage.getItem("bruger_efternavn");
+        this.rolle = localStorage.getItem("bruger_rolle");
       }
     }
   }

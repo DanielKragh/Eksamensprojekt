@@ -41,6 +41,17 @@ class Model {
             withCredentials: true
         })
     }
+    deleteProduktKommentar(id) {
+        return this.caller.delete("/kommentar/admin/"+id, {
+            withCredentials: true
+        })
+    }
+    putProduktKommentar(id,data) {
+        return this.caller.put("/kommentar/admin/"+id, data, {
+            withCredentials: true
+        })
+    }
+
 
     // Ingredienser
     postIngredienser(id, data) {
@@ -72,6 +83,9 @@ class Model {
         return this.caller.put("/nyheder/admin/" + id, data, {
             withCredentials: true
         })
+    }
+    getSeogtNyhed(ord){
+        return this.caller.get("/nyheder/soeg/" + ord)
     }
 
     // Tilmeld Nyhedsbrev

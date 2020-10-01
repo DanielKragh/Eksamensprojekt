@@ -5,7 +5,7 @@
       <input
         class="my-1 form__input form__input--email"
         type="brugernavn"
-        name="emabrugernavnil"
+        name="brugernavn"
         id="brugernavn"
         placeholder="Brugernavn"
         v-model="formData.brugernavn"
@@ -31,7 +31,6 @@
       />
       <input
         class="my-1 form__input form__input--email"
-        type="email"
         name="email"
         id="emailSignup"
         placeholder="Email"
@@ -58,6 +57,12 @@
         <v-btn tile depressed light v-bind="attrs" @click="snackbarValid = false">Close</v-btn>
       </template>
     </v-snackbar>
+    <v-snackbar v-model="snackbarInvalid" color="red">
+      Email ikke godkendt
+      <template v-slot:action="{ attrs }">
+        <v-btn tile depressed dark v-bind="attrs" @click="snackbarInvalid = false">Close</v-btn>
+      </template>
+    </v-snackbar>
   </v-card>
 </template>
 
@@ -66,15 +71,28 @@ export default {
   data() {
     return {
       formData: {},
-      snackbarValid: false
+      snackbarValid: false,
+      valid: false,
+      snackbarInvalid: false
     };
   },
   methods: {
     signUp() {
-      this.model.postSignUp(this.formData).then(() => {
-        this.snackbarValid = true;
-        this.formData = {};
-      });
+      this.valid = this.validateEmail(this.formData.email);
+      this.log(this.validateEmail(this.formData.email));
+      this.log(this.formData.email);
+      if (this.valid) {
+        this.model.postSignUp(this.formData).then(() => {
+          this.snackbarValid = true;
+          this.formData = {};
+        });
+      } else {
+        this.snackbarInvalid = true;
+      }
+    },
+    validateEmail(email) {
+      let re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      return re.test(email);
     }
   }
 };

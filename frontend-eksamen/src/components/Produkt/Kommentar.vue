@@ -18,6 +18,7 @@
           rows="1"
           placeholder="Fortæl os hvad du syntes..."
           class="my-2 mx-4"
+          :disabled="!loggedin"
           v-model="kommentaren"
         ></textarea>
         <v-spacer></v-spacer>
@@ -26,9 +27,10 @@
           height="40px"
           width="15%"
           x-small
-          dark
+          :dark="loggedin"
           tile
           depressed
+          :disabled="!loggedin"
           @click="send"
         >Indsæt</v-btn>
       </v-col>
@@ -44,8 +46,30 @@
             </v-col>
             <v-col cols="12" md="8" lg="10">
               <v-row>
-                <v-col cols="12" class="py-0">
+                <v-col cols="12" class="py-0 d-flex card-name">
                   <span class="kommentar__bruger">{{item.bruger.fornavn}} {{item.bruger.efternavn}}</span>
+                  <v-btn
+                    class="card-edit-btn"
+                    color="rgb(104, 138, 163)"
+                    dark
+                    fab
+                    x-small
+                    v-if="brugerId === item.bruger._id"
+                    @click="editKommentar(item)"
+                  >
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
+                  <v-btn
+                    class="card-delete-btn"
+                    color="red"
+                    @click="deleteKommentar(item._id)"
+                    dark
+                    fab
+                    x-small
+                    v-if="brugerId === item.bruger._id"
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
                 </v-col>
               </v-row>
               <v-row>
@@ -71,12 +95,23 @@
         ></v-pagination>
       </v-col>
     </v-row>
+    <UpdateKommentar
+      :dialog="updateDialog"
+      @close="updateDialog = false"
+      @update="edit"
+      :data="data"
+      v-if="updateDialog"
+    />
   </section>
 </template>
 
 <script>
+import UpdateKommentar from "./UpdateKommentar";
 import { mapState } from "vuex";
 export default {
+  components: {
+    UpdateKommentar
+  },
   props: {
     kommentar: {
       type: Array
@@ -85,7 +120,11 @@ export default {
   },
   data() {
     return {
+      updateDialog: false,
+      data: undefined,
       kommentaren: undefined,
+      rolle: undefined,
+      brugerId: undefined,
       page: 1,
       perPage: 3,
       months: [
@@ -119,10 +158,29 @@ export default {
             this.$emit("reload");
           });
       }
+    },
+    deleteKommentar(id) {
+      this.model.deleteProduktKommentar(id).then(() => {
+        this.$emit("reload");
+      });
+    },
+    editKommentar(data) {
+      this.data = data;
+      this.updateDialog = true;
+    },
+    edit(data) {
+      this.log(data);
+      let kommentarData = {
+        titel: data.titel,
+        kommentaren: data.kommentaren
+      };
+      this.model.putProduktKommentar(data._id, kommentarData);
     }
   },
   mounted() {
     this.log(localStorage.getItem("bruger_id"));
+    this.brugerId = localStorage.getItem("bruger_id");
+    this.rolle = localStorage.getItem("bruger_rolle");
   },
   computed: {
     ...mapState({
@@ -183,4 +241,18 @@ export default {
     font-size: 12px;
   }
 }
+.card-name {
+  position: relative;
+  .card-edit-btn {
+    position: absolute;
+    top: 0px;
+    right: 30px;
+  }
+  .card-delete-btn {
+    position: absolute;
+    top: 40px;
+    right: 30px;
+  }
+}
+
 </style>

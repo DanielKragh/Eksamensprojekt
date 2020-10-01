@@ -7,6 +7,7 @@
           <p
             class="mb-10"
           >Lorem ipsum dolor sit amet, blanditiis rem voluptatibus mollitia incidunt sunt dolorem. Explicabo doloribus dicta voluptatibus similique totam fugit!</p>
+          <h2 v-if="kategories">{{kategories[selectedKategory].titel}}</h2>
         </v-col>
       </v-row>
       <v-row>
@@ -67,7 +68,8 @@ export default {
         this.items = this.alleProdukter.filter(
           p => p.kategori._id === this.kategories[0]._id
         );
-      }).catch(err => this.log(err));
+      })
+      .catch(err => this.log(err));
   },
   computed: {
     ...mapState({
@@ -83,15 +85,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-list{
+.v-list {
   background-color: rgb(245 245 245) !important;
 }
 .v-list-item--link:before {
   background-color: #fff;
- 
 }
-.list-title{
-    text-transform: uppercase;
+.list-title {
+  text-transform: uppercase;
 }
 .v-item--active {
   .list-title {

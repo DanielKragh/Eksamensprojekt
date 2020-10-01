@@ -14,7 +14,25 @@
         <v-col cols="12" sm="8" offset-sm="2" class="text-center">
           <v-row>
             <v-col cols="12">
+              <h2>Produkter</h2>
+            </v-col>
+            <v-col cols="12">
               <BagCard v-if="items" :items="items" />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12">
+              <h2>Nyheder</h2>
+            </v-col>
+            <v-col cols="12" sm="4" md="3" v-for="nyhed in nyheder" :key="nyhed._id">
+              <div class="nyhed">
+                <div
+                  class="nyhed__img-con"
+                  :style="'background-image:url(/assets/images/brød/'+nyhed.image+')'"
+                ></div>
+                <p class="nyhed__title">{{nyhed.titel}}</p>
+                <p class="nyhed__text">{{nyhed.teaser}}</p>
+              </div>
             </v-col>
           </v-row>
         </v-col>
@@ -32,7 +50,8 @@ export default {
   },
   data() {
     return {
-      items: undefined
+      items: undefined,
+      nyheder: undefined
     };
   },
   methods: {
@@ -41,13 +60,17 @@ export default {
         this.log(res.data);
         this.items = res.data;
       });
+      this.model.getSeogtNyhed(this.$route.params.searchword).then(res => {
+        this.log(res.data);
+        this.nyheder = res.data;
+      });
     }
   },
   mounted() {
     this.getResult();
   },
   watch: {
-    "$route.params.searchword": function () {
+    "$route.params.searchword": function() {
       this.getResult();
     }
   }
@@ -55,4 +78,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.nyhed {
+  text-align: center;
+  &__img-con {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0 auto 20px auto;
+  }
+  &__title {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+  }
+  &__text {
+    font-weight: 400;
+    font-size: 10px;
+  }
+}
 </style>

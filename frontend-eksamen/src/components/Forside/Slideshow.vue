@@ -18,8 +18,12 @@
       </div>
 
       <!-- Next and previous buttons -->
-      <v-btn fab text class="prev" @click="plusSlides(-1)"><v-icon x-large>mdi-chevron-left</v-icon></v-btn>
-      <v-btn fab text class="next" @click="plusSlides(1)"><v-icon x-large>mdi-chevron-right</v-icon></v-btn>
+      <v-btn fab text class="prev" @click="plusSlides(-1)">
+        <v-icon x-large>mdi-chevron-left</v-icon>
+      </v-btn>
+      <v-btn fab text class="next" @click="plusSlides(1)">
+        <v-icon x-large>mdi-chevron-right</v-icon>
+      </v-btn>
     </div>
 
     <!-- The dots/circles -->
@@ -70,14 +74,14 @@ export default {
       dots[this.slideIndex - 1].className += " active";
     }
   },
-  mounted () {
+  mounted() {
     this.showSlides(this.slideIndex);
-  },
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.slider{
+.slider {
   position: relative;
 }
 
@@ -87,11 +91,9 @@ export default {
   margin: auto;
 }
 
-
 .mySlides {
   display: none;
 }
-
 
 .prev,
 .next {
@@ -108,17 +110,14 @@ export default {
   user-select: none;
 }
 
-
 .next {
   right: 0;
 }
-
 
 .prev:hover,
 .next:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }
-
 
 .text {
   color: #f2f2f2;
@@ -126,37 +125,39 @@ export default {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%)
+  transform: translate(-50%, -50%);
+  @media only screen and (max-width: 720px) {
+    font-size: 30px;
+  }
+   @media only screen and (max-width: 520px) {
+    font-size: 30px;
+  }
 }
 
-
-
-.dots-container{
+.dots-container {
   position: absolute;
   bottom: 10px;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   .dot {
-  cursor: pointer;
-  height: 10px;
-  width: 10px;
-  margin: 0 2px;
-  background-color: rgb(255, 255, 255);
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-  &.active {
-  background-color: #636363;
+    cursor: pointer;
+    height: 10px;
+    width: 10px;
+    margin: 0 2px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+    &.active {
+      background-color: #636363;
+    }
+  }
 }
-}
-}
-
 
 .active,
 .dot:hover {
   background-color: #636363;
 }
-
 
 .fade {
   -webkit-animation-name: fade;

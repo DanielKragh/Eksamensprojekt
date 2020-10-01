@@ -42,7 +42,6 @@ export default {
             })
             .sort()[i]
         );
-        this.log(this.items);
       }
 
       this.items = this.items.sort(func);
@@ -51,7 +50,6 @@ export default {
         return 0.5 - Math.random();
       }
 
-      this.log(this.items);
     }
   },
   computed: {
