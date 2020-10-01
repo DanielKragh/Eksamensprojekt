@@ -5,11 +5,11 @@
       :style="'background-image:url(/assets/images/produkter/'+item.image+')'"
     >
       <div class="bag__rating">
-        <v-icon :color="rating > 0 ? 'yellow':''">mdi-star</v-icon>
-        <v-icon :color="rating > 1 ? 'yellow':''">mdi-star</v-icon>
-        <v-icon :color="rating > 2 ? 'yellow':''">mdi-star</v-icon>
-        <v-icon :color="rating > 3 ? 'yellow':''">mdi-star</v-icon>
-        <v-icon :color="rating > 4 ? 'yellow':''">mdi-star</v-icon>
+        <v-icon :color="rating > 0 ? '#ffd335':''">mdi-star</v-icon>
+        <v-icon :color="rating > 1 ? '#ffd335':''">mdi-star</v-icon>
+        <v-icon :color="rating > 2 ? '#ffd335':''">mdi-star</v-icon>
+        <v-icon :color="rating > 3 ? '#ffd335':''">mdi-star</v-icon>
+        <v-icon :color="rating > 4 ? '#ffd335':''">mdi-star</v-icon>
       </div>
     </div>
     <div class="mb-2" v-if="item.kommentar">

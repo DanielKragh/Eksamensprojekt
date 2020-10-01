@@ -60,20 +60,28 @@ export default {
         this.log("Logged in: " + res.data.message);
         this.setLoggedin(res.data.message);
       })
-      .then(() => {
+
+      .catch(() => {
+        this.log("ikke logged in");
+        this.setLoggedin(false);
         if (!this.loggedin) {
-          if (
-            this.$route.path.includes("profil") ||
-            this.$route.path.includes("admin")
-          ) {
+          if (this.$route.path.includes("profil")) {
+            this.$router.push({ name: "Forside" });
+          }
+          if (this.$route.path.includes("admin")) {
             this.$router.push({ name: "Forside" });
           }
         }
-      })
-      .catch(() => this.log("ikke logged in"));
+      });
+    if (this.$route.path === "/admin") {
+      this.log("hello");
+      if (localStorage.getItem("bruger_rolle") !== "ADMIN") {
+        this.$router.push({ name: "Forside" });
+      }
+    }
   },
   watch: {
-    $route() {
+    $route(from, to) {
       this.model
         .getLoggedin()
         .then(res => {
@@ -81,13 +89,20 @@ export default {
           this.setLoggedin(res.data.message);
         })
         .catch(() => this.log("ikke logged in"));
+      this.log(to.path);
+      if (this.$route.path === "/admin") {
+        this.log("hello");
+        if (localStorage.getItem("bruger_rolle") !== "ADMIN") {
+          this.$router.push({ name: "Forside" });
+        }
+      }
     },
     loggedin() {
       if (!this.loggedin) {
-        if (
-          this.$route.path.includes("profil") ||
-          this.$route.path.includes("admin")
-        ) {
+        if (this.$route.path.includes("profil")) {
+          this.$router.push({ name: "Forside" });
+        }
+        if (this.$route.path.includes("admin")) {
           this.$router.push({ name: "Forside" });
         }
       }
@@ -118,8 +133,7 @@ p {
   font-size: 12px;
   font-weight: 400;
 }
-.v-pagination{
-    justify-content: left !important;
-
+.v-pagination {
+  justify-content: left !important;
 }
 </style>
