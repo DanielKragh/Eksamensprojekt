@@ -89,7 +89,7 @@ router.get('/soeg/:soegeord', async (req, res) => { //
                 { "beskrivelse": { "$regex": req.params.soegeord, "$options": "i" } },
                 { "ingredienser.ingrediens_titel": { "$regex": req.params.soegeord, "$options": "i" } }
             ]
-        }, 'titel teaser image pris')
+        }, 'titel teaser image pris').populate([{ path: 'rating', model: Rating, populate: { path: 'bruger', model: Bruger } }])
 
         res.json(produkter);
 
