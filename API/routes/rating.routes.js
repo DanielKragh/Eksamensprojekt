@@ -74,7 +74,7 @@ router.get('/bruger/:brugerid', async (req, res) => { //
 
 // ----- HENT/GET UDVALGT  ------------------------------------------------------------------------------------------------------------- 
 
-router.get('/:id', findKommentar, async (req, res) => { //
+router.get('/:id', findRating, async (req, res) => { //
 
     console.log("HENT UDVALGT rating")
 
@@ -115,7 +115,7 @@ router.post('/admin', async (req, res) => {
 // ----- SLET/DELETE - ADMIN (medlem skal være logget ind) ------------------------------------------------------------------------------------------------------------ 
 // ----- Et medlem bør kun kunne slette egne kommentarer men det er der ikke taget højde for i backenden - forsøg at tage højde for det i frontenden/React
 
-router.delete('/admin/:id', findKommentar, async (req, res) => {
+router.delete('/admin/:id', findRating, async (req, res) => {
 
     console.log("DELETE rating")
 
@@ -140,7 +140,7 @@ router.delete('/admin/:id', findKommentar, async (req, res) => {
 // ----- PUT/RET - ADMIN (medlem skal være logget ind) ------------------------------------------------------------------------------------------------------------ 
 // ----- Et medlem bør kun kunne rette egne kommentarer men det er der ikke taget højde for i backenden - forsøg at tage højde for det i frontenden/React
 
-router.put('/admin/:id', findKommentar, async (req, res) => {
+router.put('/admin/:id', findRating, async (req, res) => {
 
     console.log("PUT rating")
 
@@ -168,7 +168,7 @@ router.put('/admin/:id', findKommentar, async (req, res) => {
 
 // FIND UD FRA ID  ---------------------------------------------------------------------------------------------
 
-async function findKommentar(req, res, next) {
+async function findRating(req, res, next) {
 
     console.log("FIND rating UD FRA ID", req.params.id)
 

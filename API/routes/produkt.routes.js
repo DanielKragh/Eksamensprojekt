@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
     console.log("HENT ALLE produkt");
 
     try {
-        const produkter = await Produkt.find({}, 'titel teaser image pris likes kommentar').sort([['title', 1]]).populate('kategori')//.limit(antal); populate('kategori kommentar')
+        const produkter = await Produkt.find({}, 'titel teaser image pris likes kommentar').sort([['title', 1]]).populate('kategori').populate('rating')//.limit(antal); populate('kategori kommentar')
 
         res.json(produkter);
 
