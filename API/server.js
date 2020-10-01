@@ -81,6 +81,7 @@ app.use('/nyheder', require('./routes/nyhed.routes'));
 app.use('/nyhedsbrevtilmelding', require('./routes/nyhedsbrevtilmelding.routes'));
 app.use('/kommentar', require('./routes/kommentar.routes'));
 app.use('/kontakt', require('./routes/kontakt.routes'));
+app.use('/rating', require('./routes/rating.routes'));
 app.use('/login', require('./routes/login.routes'));
 
 

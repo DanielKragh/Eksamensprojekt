@@ -66,6 +66,10 @@ const produktSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Kommentar' // fordi vi refererer til en anden model/schema - value SKAL matche navnet på navnet i export i modellen der referes til
     }],
+    rating: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Rating' 
+    }],
     ingredienser: [ingrediensSchema]
 }
     // #region
