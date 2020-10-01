@@ -7,20 +7,7 @@
       v-for="(item,i) in items"
       :key="i"
     >
-      <div class="bag mt-5">
-        <div
-          class="bag__img-con"
-          :style="'background-image:url(/assets/images/produkter/'+item.image+')'"
-        ></div>
-        <div class="mb-2" v-if="item.kommentar">
-          <span class="grey--text bag__comments">{{item.likes}}</span>
-          <v-icon x-small>mdi-heart</v-icon>|
-          <span class="grey--text bag__comments">{{item.kommentar.length}}</span>
-          <v-icon x-small>mdi-message</v-icon>
-        </div>
-        <p class="bag__title">{{item.titel}}</p>
-        <p class="bag__text">{{item.teaser.substring(0, 70) + '...'}}</p>
-      </div>
+      <Card :item='item'/>
       <v-btn
         outlined
         tile
@@ -34,12 +21,17 @@
 </template>
 
 <script>
+import Card from "./Card"
 export default {
+  components: {
+    Card,
+  },
   props: {
     items: {
       type: Array
     }
-  }
+  },
+ 
 };
 </script>
 

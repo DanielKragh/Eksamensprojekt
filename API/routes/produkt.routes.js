@@ -1,5 +1,6 @@
 const Produkt = require('../models/produkt.model');
 const Kommentar = require('../models/kommentar.model') // for at kunne tælle kommentarer
+const Rating = require('../models/rating.model') // for at kunne tælle kommentarer
 const Bruger = require('../models/bruger.model') // for at kunne tælle kommentarer
 
 const express = require('express');
@@ -106,7 +107,7 @@ router.get('/:id', async (req, res) => { //
 
     console.log("HENT UDVALGT produkt")
     //produkt = await Produkt.findById(req.params.id).populate('kategori kommentar', [{path: kommentar}])
-    produkt = await Produkt.findById(req.params.id).populate([{ path: 'kategori' }, { path: 'kommentar', model: Kommentar, populate: { path: 'bruger', model: Bruger } }]) // {path: 'kommentar'},
+    produkt = await Produkt.findById(req.params.id).populate([{ path: 'kategori' }, { path: 'kommentar', model: Kommentar, populate: { path: 'bruger', model: Bruger } },{ path: 'rating', model: Rating, populate: { path: 'bruger', model: Bruger } }]) // {path: 'kommentar'},
     res.json(produkt);
 
 });

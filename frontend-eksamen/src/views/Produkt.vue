@@ -9,6 +9,16 @@
       <v-col cols="12" sm="8" offset-sm="2">
         <v-row>
           <v-col cols="12" sm="9" class="produkt mt-10" v-if="produkt">
+            <div class="bag__rating d-flex">
+              <v-icon @click="rateProdukt(1)" :color="rating > 0 ? '#ffd335':''">mdi-star</v-icon>
+              <v-icon @click="rateProdukt(2)" :color="rating > 1 ? '#ffd335':''">mdi-star</v-icon>
+              <v-icon @click="rateProdukt(3)" :color="rating > 2 ? '#ffd335':''">mdi-star</v-icon>
+              <v-icon @click="rateProdukt(4)" :color="rating > 3 ? '#ffd335':''">mdi-star</v-icon>
+              <v-icon @click="rateProdukt(5)" :color="rating > 4 ? '#ffd335':''">mdi-star</v-icon>
+              <div>
+                <span class="ml-2">{{produkt.rating.length}} Ratings</span>
+              </div>
+            </div>
             <h1 class="produkt__titel">
               {{produkt.titel}}
               <span class="caption ml-5">
@@ -42,7 +52,12 @@
     </v-row>
     <v-row>
       <v-col cols="12" sm="8" offset-sm="2">
-        <Kommentar  v-if="produkt" :kommentar="produkt.kommentar" :produkt='produkt' @reload="getProdukt"/>
+        <Kommentar
+          v-if="produkt"
+          :kommentar="produkt.kommentar"
+          :produkt="produkt"
+          @reload="getProdukt"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -61,10 +76,40 @@ export default {
   data() {
     return {
       produkt: undefined,
-      breadcrumbs: undefined
+      breadcrumbs: undefined,
+      rating: undefined
     };
   },
   methods: {
+    async rateProdukt(rating) {
+      const checkUser = async () => {
+        if (this.produkt.rating.length) {
+          return this.produkt.rating.map(r => {
+            if (r.bruger._id === localStorage.getItem("bruger_id")) {
+              return false;
+            } else {
+              return true;
+            }
+          });
+        } else {
+          return [true];
+        }
+        
+      };
+      this.log(checkUser());
+      checkUser().then(res => {
+        this.log(res[0]);
+
+        let data = {
+          rating: rating,
+          produkt: this.produkt._id,
+          bruger: localStorage.getItem("bruger_id")
+        };
+        this.log(data);
+        this.log(res[0]);
+        if (res[0]) this.model.postRating(data).then(() => this.getProdukt());
+      });
+    },
     likeProdukt() {
       this.model
         .patchLikeProdukt(this.$route.params.produktId)
@@ -96,6 +141,13 @@ export default {
           document.querySelector(
             ".produkt__details-con-text"
           ).innerHTML = this.produkt.beskrivelse;
+          this.log(this.produkt);
+          let arr = [];
+          this.produkt.rating.map(r => arr.push(r.rating));
+          this.log(arr);
+          this.log(arr.reduce((a, b) => (b += a), 0));
+          let sum = arr.reduce((a, b) => (b += a), 0);
+          this.rating = sum / arr.length;
         })
         .catch(err => this.log(err));
     }

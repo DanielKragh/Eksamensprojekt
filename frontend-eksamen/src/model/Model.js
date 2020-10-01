@@ -51,7 +51,12 @@ class Model {
             withCredentials: true
         })
     }
-
+    // rate produkt
+    postRating(data){
+        return this.caller.post("/rating/admin", data, {
+            withCredentials: true
+        })
+    }
 
     // Ingredienser
     postIngredienser(id, data) {
