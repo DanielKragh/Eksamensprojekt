@@ -69,6 +69,9 @@ class Model {
     getAllNyheder() {
         return this.caller.get("/nyheder")
     }
+    getNyhedFraId(id) {
+        return this.caller.get("/nyheder/"+id)
+    }
     postNyhed(data) {
         return this.caller.post("/nyheder/admin", data, {
             withCredentials: true

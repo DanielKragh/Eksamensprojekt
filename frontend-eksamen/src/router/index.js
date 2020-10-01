@@ -8,6 +8,7 @@ import SendtBesked from '../views/SendtBesked.vue'
 import SearchResult from '../views/SearchResult.vue'
 import Profil from '../views/Profil.vue'
 import Admin from '../views/Admin.vue'
+import Nyhed from '../views/Nyhed.vue'
 import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
@@ -32,6 +33,11 @@ const routes = [
     path: '/produkt/:produktId',
     name: 'Produkt',
     component: Produkt
+  },
+  {
+    path: '/nyhed/:nyhedId',
+    name: 'Nyhed',
+    component: Nyhed
   },
   {
     path: '/sendtbesked',

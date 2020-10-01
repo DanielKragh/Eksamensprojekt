@@ -32,6 +32,14 @@
                 ></div>
                 <p class="nyhed__title">{{nyhed.titel}}</p>
                 <p class="nyhed__text">{{nyhed.teaser}}</p>
+                <v-btn
+                  outlined
+                  tile
+                  width="100%"
+                  height="35px"
+                  small
+                  @click="$router.push({name: 'Nyhed',params:{nyhedId: nyhed._id}})"
+                >se mere</v-btn>
               </div>
             </v-col>
           </v-row>
