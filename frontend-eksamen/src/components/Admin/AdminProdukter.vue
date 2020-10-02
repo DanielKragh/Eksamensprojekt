@@ -77,6 +77,9 @@ export default {
       this.model.getAllProdukter().then(res => {
         this.log(res.data);
         this.items = res.data;
+         this.items.map(i => {
+          i.teaser = i.teaser.substring(0, 40)+ "..."
+        })
       });
     },
     opret(e) {

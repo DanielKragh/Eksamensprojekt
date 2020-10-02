@@ -67,6 +67,10 @@ export default {
       this.model.getAllNyheder().then(res => {
         this.log(res.data);
         this.items = res.data;
+        this.items.map(i => {
+          i.nyhedstekst = i.nyhedstekst.substring(0, 30) + "...";
+          i.teaser = i.teaser.substring(0, 40) + "...";
+        });
       });
     },
     opret(e) {
